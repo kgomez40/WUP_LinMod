@@ -63,7 +63,7 @@ model.1 <- lm(SIMS~ARM,data=data)
 summary.lm(model.1)
 ```
 
-We have evidence that the intercept and the coefficient of arm are significantly different from 0
+We have evidence that the intercept and the coefficient of arm are significantly different from 0. Therefore we reject the null hypothesis, due to the small p-value.
 
 
 ### prediction interval
@@ -77,21 +77,40 @@ The prediction interval is from -1.7 to 3.1 for SIM score.
 
 ## Model 2 SIM~GRIP
 
-### Now add in scatterplot
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+plot(SIMS~GRIP,data=data)
+abline(model.2, col='red')
+```
 
+This graph shows that as grip strength increases, the simulation score does too. The spread of the points around the regression line, in the grip plot, is more than the model 1 strength plot. 
 
 ### Numerical results 
 
+```{r}
+cor(SIMS~GRIP,data=data)
+```
+
+The correlation coefficient is 0.64 which shows that grip strength is related to sim score. The grip correlation coefficient is smaller than model 1's, 0.69.
 
 ### Inferential  (Build model.2)
-  
+
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+```  
+
+We have evidence that the intercept and the coefficient of grip are significantly different from 0. Therefore we reject the null hypothesis due to the small p-value. 
 
 #### predict model.2 at target point
 
-#### now add the model fit to our plot for model.2
+```{r}
+newdata = data.frame(ARM=88, GRIP=94)
+predict(model.2, newdata, interval="predict")
+```
+
+The prediction interval is from -3.1 to 2.0 for SIM score. 
   
-
-
 ## Model 3 SIM~ARM+GRIP
 
 ### Numerical results (cor)
