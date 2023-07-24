@@ -113,19 +113,58 @@ The prediction interval is from -3.1 to 2.0 for SIM score.
   
 ## Model 3 SIM~ARM+GRIP
 
-### Numerical results (cor)
+### Numerical Results
 
-`
-  
+```{r}
+cor(SIMS~ARM+GRIP,data=data)
+```
+
+The correlation is 0.73, which shows that arm/grip strength is related to sims score.
+
 ### Inferential  (Build 2-dimentional model.3)
 
-#### predict model.3 at target point
-  
+````{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+summary.lm(model.3)
+```  
+
+These coefficients are significant from 0 because the p-value is small, thus rejecting the null hypothesis. As arm goes up, sims will also go up because the coefficient is positive
+
+### Prediction Interval
+
+```{r}
+newdata = data.frame(ARM=88, GRIP=94)
+predict(model.3, newdata, interval="predict")
+```
+
+The prediction interval is from 0.15 to -
 
 ## Comparing nested models ANOVA Test
 
 ### Model.1 vs Model.3
+
+```{r}
+anova(model.3,model.1)
+```
+
+The p-value is .00000499 so I reject the null hypothesis. Model three is better than model one because the rss is smaller. 
+
 ### Model.2 vs Model.3
+
+```{r}
+anova(model.3,model.2)
+```
+
+Model three is better than model two because it has a smaller rss.
 
 ## Informally compare Model.1 with model.2
 
+```{r}
+anova(model.2,model.1)
+```
+
+Model one is better than model two because the rss for model one is smaller.
+
+# Discussion and Conclusion
+
+We tried fitting three models to the data and we found that each of the models were significant in terms of being able to predict the simulated strength score but when we looked at the analysis variance we found that model with ARM + GRIP was the best since it has a smaller RSS than all the others. 
